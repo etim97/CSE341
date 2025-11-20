@@ -7,8 +7,7 @@
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "swagger-autogen": "node swagger.js"
-
-},
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/etim97/CSE341.git"
@@ -22,9 +21,11 @@
   },
   "homepage": "https://github.com/etim97/CSE341#readme",
   "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "googleapis": "^105.0.0",
     "mongodb": "^6.20.0",
     "swagger-autogen": "^2.23.7",
     "swagger-jsdoc": "^6.2.8",
