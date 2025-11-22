@@ -1,0 +1,163 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "CSE 341 Project API",
+    "description": "API for managing Students and Courses",
+    "version": "1.0.0"
+  },
+  "host": "cse341-2-db00.onrender.com",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+
+    
+    "/students": {
+      "get": {
+        "tags": ["Students"],
+        "summary": "Get all students",
+        "responses": {
+          "200": { "description": "List of students retrieved successfully" }
+        }
+      },
+      "post": {
+        "tags": ["Students"],
+        "summary": "Create a new student",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "student",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "age": { "type": "number" },
+                "email": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Student created successfully" }
+        }
+      }
+    },
+
+    "/students/{id}": {
+      "put": {
+        "tags": ["Students"],
+        "summary": "Update a student by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "student",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Student updated successfully" },
+          "404": { "description": "Student not found" }
+        }
+      },
+      "delete": {
+        "tags": ["Students"],
+        "summary": "Delete a student by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Student deleted successfully" },
+          "404": { "description": "Student not found" }
+        }
+      }
+    },
+
+   
+    "/courses": {
+      "get": {
+        "tags": ["Courses"],
+        "summary": "Get all courses",
+        "responses": {
+          "200": { "description": "List of courses retrieved successfully" }
+        }
+      },
+      "post": {
+        "tags": ["Courses"],
+        "summary": "Create a new course",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "course",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "credits": { "type": "number" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Course created successfully" }
+        }
+      }
+    },
+
+    "/courses/{id}": {
+      "put": {
+        "tags": ["Courses"],
+        "summary": "Update a course by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "course",
+            "required": true,
+            "schema": { "type": "object" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Course updated successfully" },
+          "404": { "description": "Course not found" }
+        }
+      },
+      "delete": {
+        "tags": ["Courses"],
+        "summary": "Delete a course by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Course deleted successfully" },
+          "404": { "description": "Course not found" }
+        }
+      }
+    }
+  }
+}
