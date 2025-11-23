@@ -1,4 +1,4 @@
-const { getDB } = require('../models/connection');
+const { getDB } = require('../model/connection');
 const { ObjectId } = require('mongodb');
 
 // CREATE

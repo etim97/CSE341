@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const studentController = require('../controllers/studentController');
 const { validationResult } = require('express-validator');
-const { createStudentValidation, updateStudentValidation } = require('../validations/studentValidation');
+const { createStudentValidation, updateStudentValidation } = require('../validation/studentValidation');
 
 // GET all students
 router.get('/', studentController.getStudents);

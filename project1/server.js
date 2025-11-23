@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
-const { connectDB } = require('./models/connection'); // 👈 import connection file
+const { connectDB } = require('./model/connection'); // 👈 import connection file
 
 const app = express();
 const port = process.env.PORT || 3000;

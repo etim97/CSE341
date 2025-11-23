@@ -5,7 +5,7 @@
     "description": "API for managing Students and Courses",
     "version": "1.0.0"
   },
-  "host": "cse341-2-db00.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": ["http"],
   "paths": {
