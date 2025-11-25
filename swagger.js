@@ -7,7 +7,7 @@ const doc = {
     description: 'API for managing contacts',
   },
   host: 'cse341-2-db00.onrender.com',
-  schemes: ['http'],
+  schemes: ['https'],
 };
 
 const outputFile = './swagger.json'; // This will be auto-generated
