@@ -32,7 +32,10 @@
               "properties": {
                 "name": { "type": "string" },
                 "age": { "type": "number" },
-                "email": { "type": "string" }
+                "email": { "type": "string" },
+                "department": { "type": "string" },
+                "enrollmentYear": { "type": "number"},
+                "gba": { "type": "number" }              
               }
             }
           }
