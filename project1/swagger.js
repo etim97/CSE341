@@ -3,7 +3,7 @@ const swaggerAutogen = require('swagger-autogen')();
 
 const doc = {
   info: {
-    title: 'Contacts API',
+    title: 'University API',
     description: 'API for managing Students and Courses',
   },
   host: 'https://cse341-4-0shb.onrender.com',
