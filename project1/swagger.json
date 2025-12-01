@@ -46,9 +46,9 @@
         "summary": "Protected route",
         "description": "Requires authentication. Returns 401 if not logged in.",
         "security": [
-          { "oauth": [] }
-        ],
-        "responses": {
+      { "oauth": ["user:email"] }
+     ],
+      "responses": {
           "200": { "description": "User is authenticated" },
           "401": { "description": "Unauthorized - user not logged in" }
         }
