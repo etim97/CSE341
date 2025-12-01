@@ -6,7 +6,7 @@ const doc = {
     title: 'University API',
     description: 'API for managing Students and Courses',
   },
-  host: 'http://localhost:3000',
+  host: 'https://cse341-7-zsb3.onrender.com',
   schemes: ['http'],
 };
 

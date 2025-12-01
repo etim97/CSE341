@@ -5,9 +5,9 @@
     "description": "API for managing Students and Courses with OAuth authentication",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-7-zsb3.onrender.com",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https"],
   "securityDefinitions": {
     "oauth": {
       "type": "oauth2",
