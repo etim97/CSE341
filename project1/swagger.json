@@ -2,15 +2,73 @@
   "swagger": "2.0",
   "info": {
     "title": "CSE 341 Project API",
-    "description": "API for managing Students and Courses",
+    "description": "API for managing Students and Courses with OAuth authentication",
     "version": "1.0.0"
   },
-  "host": "cse341-4-0shb.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
-  "schemes": ["https"],
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "oauth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://github.com/login/oauth/authorize",
+      "tokenUrl": "https://github.com/login/oauth/access_token",
+      "flow": "accessCode",
+      "scopes": {
+        "user:email": "Access your email address"
+      }
+    }
+  },
   "paths": {
+    "/auth/github": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Login with GitHub OAuth",
+        "description": "Redirects user to GitHub for authentication.",
+        "responses": {
+          "302": { "description": "Redirect to GitHub login page" }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Logout user",
+        "description": "Ends the user session and logs them out.",
+        "responses": {
+          "200": { "description": "Successfully logged out" }
+        }
+      }
+    },
+    "/protected": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Protected route",
+        "description": "Requires authentication. Returns 401 if not logged in.",
+        "security": [
+          { "oauth": [] }
+        ],
+        "responses": {
+          "200": { "description": "User is authenticated" },
+          "401": { "description": "Unauthorized - user not logged in" }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Dashboard route",
+        "description": "Second protected route. Requires authentication.",
+        "security": [
+          { "oauth": [] }
+        ],
+        "responses": {
+          "200": { "description": "User dashboard returned successfully" },
+          "401": { "description": "Unauthorized - user not logged in" }
+        }
+      }
+    },
 
-    
     "/students": {
       "get": {
         "tags": ["Students"],
@@ -34,8 +92,8 @@
                 "age": { "type": "number" },
                 "email": { "type": "string" },
                 "department": { "type": "string" },
-                "enrollmentYear": { "type": "number"},
-                "gba": { "type": "number" }              
+                "enrollmentYear": { "type": "number" },
+                "gba": { "type": "number" }
               }
             }
           }
@@ -45,26 +103,13 @@
         }
       }
     },
-
     "/students/{id}": {
       "put": {
         "tags": ["Students"],
         "summary": "Update a student by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "student",
-            "required": true,
-            "schema": {
-              "type": "object"
-            }
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "in": "body", "name": "student", "required": true, "schema": { "type": "object" } }
         ],
         "responses": {
           "200": { "description": "Student updated successfully" },
@@ -75,12 +120,7 @@
         "tags": ["Students"],
         "summary": "Delete a student by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
           "200": { "description": "Student deleted successfully" },
@@ -88,8 +128,6 @@
         }
       }
     },
-
-   
     "/courses": {
       "get": {
         "tags": ["Courses"],
@@ -121,24 +159,13 @@
         }
       }
     },
-
     "/courses/{id}": {
       "put": {
         "tags": ["Courses"],
         "summary": "Update a course by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "course",
-            "required": true,
-            "schema": { "type": "object" }
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "in": "body", "name": "course", "required": true, "schema": { "type": "object" } }
         ],
         "responses": {
           "200": { "description": "Course updated successfully" },
@@ -149,12 +176,7 @@
         "tags": ["Courses"],
         "summary": "Delete a course by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
           "200": { "description": "Course deleted successfully" },

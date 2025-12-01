@@ -2,7 +2,8 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 const { connectDB } = require('./model/connection'); // 👈 import connection file
-
+const session = require('express-session');
+const passport = require('./config/passport');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -21,6 +22,20 @@ app.use('/students', studentsRoutes);
 
 const coursesRoutes = require('./routes/courses');
 app.use('/courses', coursesRoutes);
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+const authRoutes = require('./routes/auth');
+app.use('/auth', authRoutes);
+const protectedRoutes = require('./routes/protected');
+app.use('/', protectedRoutes);
 
 // Connect to MongoDB before starting the server
 connectDB().then(() => {

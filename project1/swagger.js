@@ -6,10 +6,15 @@ const doc = {
     title: 'University API',
     description: 'API for managing Students and Courses',
   },
-  host: 'https://cse341-4-0shb.onrender.com',
+  host: 'http://localhost:3000',
   schemes: ['http'],
 };
 
 const outputFile = './swagger.json'; // This will be auto-generated
-const endpointsFiles = ['./routes/students.js', './routes/courses.js'];
+const endpointsFiles = ['./routes/students.js',
+  './routes/courses.js',
+  './routes/auth.js',
+  './routes/protected.js'
+
+];
 swaggerAutogen(outputFile, endpointsFiles, doc);
