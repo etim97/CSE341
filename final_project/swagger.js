@@ -6,8 +6,8 @@ const doc = {
     title: 'Books and Authors API',
     description: 'API for management of books and authors',
   },
-  host: 'http://localhost:3000',
-  schemes: ['http'],
+  host: 'cse341-8-0rxn.onrender.com',
+  schemes: ['https'],
 };
 
 const outputFile = './swagger.json'; // This will be auto-generated

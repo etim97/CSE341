@@ -5,9 +5,9 @@
     "description": "API for managing books and authors",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-8-0rxn.onrender.com",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https"],
   "paths": {
 
   
