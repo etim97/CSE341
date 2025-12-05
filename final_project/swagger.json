@@ -1,0 +1,174 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Books and Authors API",
+    "description": "API for managing books and authors",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+
+  
+
+    "/books": {
+      "get": {
+        "summary": "Get all books",
+        "description": "Returns a list of all books",
+        "responses": {
+          "200": {
+            "description": "List of books"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new book",
+        "description": "Add a new book to the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "genre": { "type": "string" },
+                "publishedYear": { "type": "number" },
+                "authorId": { "type": "string" }
+
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Book created" }
+        }
+      }
+    },
+
+    "/books/{id}": {
+      "put": {
+        "summary": "Update a book",
+        "description": "Update a book by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Book updated" },
+          "404": { "description": "Book not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a book",
+        "description": "Delete a book by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Book deleted" },
+          "404": { "description": "Book not found" }
+        }
+      }
+    },
+
+    
+    "/authors": {
+      "get": {
+        "summary": "Get all authors",
+        "description": "Returns a list of all authors",
+        "responses": {
+          "200": {
+            "description": "List of authors"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new author",
+        "description": "Add a new author to the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "year of birth": { "type": "number" },
+                "nationality": { "type": "string" },
+                "school": { "type": "string" }
+
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Author created" }
+        }
+      }
+    },
+
+    "/authors/{id}": {
+      "put": {
+        "summary": "Update an author",
+        "description": "Update an author by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Author updated" },
+          "404": { "description": "Author not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete an author",
+        "description": "Delete an author by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Author deleted" },
+          "404": { "description": "Author not found" }
+        }
+      }
+    }
+  }
+}
