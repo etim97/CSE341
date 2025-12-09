@@ -5,9 +5,9 @@
     "description": "API for managing books, authors, categories, and publishers with OAuth authentication",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-9-jojg.onrender.com",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https"],
   "securityDefinitions": {
     "oauth": {
       "type": "oauth2",
