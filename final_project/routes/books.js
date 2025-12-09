@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const controllers = require('../controllers/booksController');
+const ensureAuth = require('../auth/ensureAuth');
 
 // GET all books
 router.get('/', controllers.getBooks);

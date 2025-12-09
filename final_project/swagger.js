@@ -6,11 +6,12 @@ const doc = {
     title: 'Books and Authors API',
     description: 'API for management of books and authors',
   },
-  host: 'cse341-8-0rxn.onrender.com',
-  schemes: ['https'],
+  host: 'http://localhost:3000',
+  schemes: ['http'],
 };
 
 const outputFile = './swagger.json'; // This will be auto-generated
-const endpointsFiles = ['./routes/books', './routes/authors']; // Your route file
+const endpointsFiles = ['./routes/books', './routes/authors',  './routes/publishers.js',
+  './routes/categories.js']; // Your route file
 
 swaggerAutogen(outputFile, endpointsFiles, doc);

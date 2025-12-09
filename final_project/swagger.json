@@ -2,24 +2,95 @@
   "swagger": "2.0",
   "info": {
     "title": "Books and Authors API",
-    "description": "API for managing books and authors",
+    "description": "API for managing books, authors, categories, and publishers with OAuth authentication",
     "version": "1.0.0"
   },
-  "host": "cse341-8-0rxn.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
-  "schemes": ["https"],
-  "paths": {
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "oauth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://github.com/login/oauth/authorize",
+      "tokenUrl": "https://github.com/login/oauth/access_token",
+      "flow": "accessCode",
+      "scopes": {
+        "user:email": "Access your email address"
+      }
+    }
+  },
 
-  
+  "paths": {
+    "/auth/github": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Login with GitHub OAuth",
+        "description": "Redirects user to GitHub for authentication.",
+        "responses": {
+          "302": { "description": "Redirect to GitHub login page" }
+        }
+      }
+    },
+
+    "/auth/github/callback": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "GitHub OAuth callback",
+        "description": "Callback endpoint for GitHub OAuth login.",
+        "responses": {
+          "200": { "description": "Successful login" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+
+    "/auth/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Logout user",
+        "description": "Ends the user session.",
+        "responses": {
+          "200": { "description": "Successfully logged out" }
+        }
+      }
+    },
+
+    "/protected/dashboard": {
+      "get": {
+        "tags": ["Protected"],
+        "summary": "Access dashboard",
+        "description": "Requires OAuth login",
+        "security": [
+          { "oauth": ["user:email"] }
+        ],
+        "responses": {
+          "200": { "description": "Dashboard returned" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+
+    "/protected/profile": {
+      "get": {
+        "tags": ["Protected"],
+        "summary": "Get user profile",
+        "description": "Requires OAuth login",
+        "security": [
+          { "oauth": ["user:email"] }
+        ],
+        "responses": {
+          "200": { "description": "Profile returned" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
 
     "/books": {
       "get": {
         "summary": "Get all books",
         "description": "Returns a list of all books",
         "responses": {
-          "200": {
-            "description": "List of books"
-          }
+          "200": { "description": "List of books" }
         }
       },
       "post": {
@@ -37,7 +108,6 @@
                 "genre": { "type": "string" },
                 "publishedYear": { "type": "number" },
                 "authorId": { "type": "string" }
-
               }
             }
           }
@@ -53,20 +123,8 @@
         "summary": "Update a book",
         "description": "Update a book by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object"
-            }
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
         ],
         "responses": {
           "200": { "description": "Book updated" },
@@ -77,12 +135,7 @@
         "summary": "Delete a book",
         "description": "Delete a book by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
           "200": { "description": "Book deleted" },
@@ -91,15 +144,12 @@
       }
     },
 
-    
     "/authors": {
       "get": {
         "summary": "Get all authors",
         "description": "Returns a list of all authors",
         "responses": {
-          "200": {
-            "description": "List of authors"
-          }
+          "200": { "description": "List of authors" }
         }
       },
       "post": {
@@ -114,10 +164,9 @@
               "type": "object",
               "properties": {
                 "name": { "type": "string" },
-                "year of birth": { "type": "number" },
+                "yearOfBirth": { "type": "number" },
                 "nationality": { "type": "string" },
                 "school": { "type": "string" }
-
               }
             }
           }
@@ -133,20 +182,8 @@
         "summary": "Update an author",
         "description": "Update an author by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object"
-            }
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
         ],
         "responses": {
           "200": { "description": "Author updated" },
@@ -157,16 +194,125 @@
         "summary": "Delete an author",
         "description": "Delete an author by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
           "200": { "description": "Author deleted" },
           "404": { "description": "Author not found" }
+        }
+      }
+    },
+
+    "/categories": {
+      "get": {
+        "summary": "Get all categories",
+        "description": "Returns all categories",
+        "responses": {
+          "200": { "description": "List of categories" }
+        }
+      },
+      "post": {
+        "summary": "Create a new category",
+        "description": "Add a new category to the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "description": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Category created" }
+        }
+      }
+    },
+
+    "/categories/{id}": {
+      "put": {
+        "summary": "Update a category",
+        "description": "Update a category by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "Category updated" },
+          "404": { "description": "Category not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a category",
+        "description": "Delete a category by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "Category deleted" },
+          "404": { "description": "Category not found" }
+        }
+      }
+    },
+
+    "/publishers": {
+      "get": {
+        "summary": "Get all publishers",
+        "description": "Returns a list of all publishers",
+        "responses": {
+          "200": { "description": "List of publishers" }
+        }
+      },
+      "post": {
+        "summary": "Create a new publisher",
+        "description": "Add a new publisher to the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "location": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Publisher created" }
+        }
+      }
+    },
+
+    "/publishers/{id}": {
+      "put": {
+        "summary": "Update a publisher",
+        "description": "Update a publisher by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "Publisher updated" },
+          "404": { "description": "Publisher not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a publisher",
+        "description": "Delete a publisher by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "Publisher deleted" },
+          "404": { "description": "Publisher not found" }
         }
       }
     }
