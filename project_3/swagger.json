@@ -1,0 +1,325 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "University API",
+    "description": "API for managing Students, Teachers, Courses, and Enrollments with OAuth authentication",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "oauth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://github.com/login/oauth/authorize",
+      "tokenUrl": "https://github.com/login/oauth/access_token",
+      "flow": "accessCode",
+      "scopes": {
+        "user:email": "Access your email address"
+      }
+    }
+  },
+
+  "paths": {
+    "/auth/github": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Login with GitHub OAuth",
+        "description": "Redirects user to GitHub for authentication.",
+        "responses": {
+          "302": { "description": "Redirect to GitHub login page" }
+        }
+      }
+    },
+
+    "/auth/github/callback": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "GitHub OAuth callback",
+        "description": "Callback endpoint for GitHub OAuth login.",
+        "responses": {
+          "200": { "description": "Successful login" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+
+    "/auth/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Logout user",
+        "description": "Ends the user session.",
+        "responses": {
+          "200": { "description": "Successfully logged out" }
+        }
+      }
+    },
+
+    "/protected/management": {
+      "get": {
+        "tags": ["Protected"],
+        "summary": "Management access area",
+        "description": "Requires OAuth login (Management role).",
+        "security": [
+          { "oauth": ["user:email"] }
+        ],
+        "responses": {
+          "200": { "description": "Management dashboard returned" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+
+    "/protected/staffs": {
+      "get": {
+        "tags": ["Protected"],
+        "summary": "Staff access area",
+        "description": "Requires OAuth login (Staff role).",
+        "security": [
+          { "oauth": ["user:email"] }
+        ],
+        "responses": {
+          "200": { "description": "Staff dashboard returned" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+
+    "/students": {
+      "get": {
+        "summary": "Get all students",
+        "description": "Returns a list of all students",
+        "responses": {
+          "200": { "description": "List of students" }
+        }
+      },
+      "post": {
+        "summary": "Create a new student",
+        "description": "Add a new student to the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" },
+                "age": { "type": "number" },
+                "gender": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Student created" }
+        }
+      }
+    },
+
+    "/students/{id}": {
+      "put": {
+        "summary": "Update a student",
+        "description": "Update a student by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "Student updated" },
+          "404": { "description": "Student not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a student",
+        "description": "Delete a student by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "Student deleted" },
+          "404": { "description": "Student not found" }
+        }
+      }
+    },
+
+    "/teachers": {
+      "get": {
+        "summary": "Get all teachers",
+        "description": "Returns a list of all teachers",
+        "responses": {
+          "200": { "description": "List of teachers" }
+        }
+      },
+      "post": {
+        "summary": "Create a new teacher",
+        "description": "Add a new teacher to the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" },
+                "department": { "type": "string" },
+                "gender": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Teacher created" }
+        }
+      }
+    },
+
+    "/teachers/{id}": {
+      "put": {
+        "summary": "Update a teacher",
+        "description": "Update a teacher by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "Teacher updated" },
+          "404": { "description": "Teacher not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a teacher",
+        "description": "Delete a teacher by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "Teacher deleted" },
+          "404": { "description": "Teacher not found" }
+        }
+      }
+    },
+
+    "/courses": {
+      "get": {
+        "summary": "Get all courses",
+        "description": "Returns a list of all courses",
+        "responses": {
+          "200": { "description": "List of courses" }
+        }
+      },
+      "post": {
+        "summary": "Create a new course",
+        "description": "Add a new course to the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "code": { "type": "string" },
+                "credits": { "type": "number" },
+                "description": { "type": "string" },
+                "teacher": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Course created" }
+        }
+      }
+    },
+
+    "/courses/{id}": {
+      "put": {
+        "summary": "Update a course",
+        "description": "Update a course by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "Course updated" },
+          "404": { "description": "Course not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a course",
+        "description": "Delete a course by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "Course deleted" },
+          "404": { "description": "Course not found" }
+        }
+      }
+    },
+
+    "/enrollments": {
+      "get": {
+        "summary": "Get all enrollments",
+        "description": "Returns a list of all enrollments",
+        "responses": {
+          "200": { "description": "List of enrollments" }
+        }
+      },
+      "post": {
+        "summary": "Create a new enrollment",
+        "description": "Add a new enrollment to the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "courseTitle": { "type": "string" },
+                "semester": { "type": "string" },
+                "year": { "type": "number" },
+                "status": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Enrollment created" }
+        }
+      }
+    },
+
+    "/enrollments/{id}": {
+      "put": {
+        "summary": "Update an enrollment",
+        "description": "Update an enrollment by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "Enrollment updated" },
+          "404": { "description": "Enrollment not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete an enrollment",
+        "description": "Delete an enrollment by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "Enrollment deleted" },
+          "404": { "description": "Enrollment not found" }
+        }
+      }
+    }
+  }
+}
